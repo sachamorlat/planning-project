@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
+import {WorkEntry} from "../types/workEntry.ts";
 
 export default function Dashboard() {
-    const { user } = useAuth();
     const [entries, setEntries] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({
@@ -34,7 +33,7 @@ export default function Dashboard() {
         }
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         try {
             const response = await fetch('/api/work-entries', {
@@ -222,7 +221,7 @@ export default function Dashboard() {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {entries.map((entry) => (
+                                {entries.map((entry: WorkEntry) => (
                                     <tr key={entry.id} className="border-b hover:bg-gray-50">
                                         <td className="px-4 py-2">{new Date(entry.date).toLocaleDateString()}</td>
                                         <td className="px-4 py-2">{entry.location}</td>
@@ -232,8 +231,8 @@ export default function Dashboard() {
                                         <td className="px-4 py-2">{entry.breakDuration} min</td>
                                         <td className="px-4 py-2">
                                             {(
-                                                (new Date(`${entry.date}T${entry.endTime}`) -
-                                                    new Date(`${entry.date}T${entry.startTime}`)) /
+                                                (new Date(`${entry.date}T${entry.endTime}`).getTime() -
+                                                    new Date(`${entry.date}T${entry.startTime}`).getTime()) /
                                                 (1000 * 60 * 60) -
                                                 (entry.breakDuration / 60)
                                             ).toFixed(2)}h
@@ -244,7 +243,7 @@ export default function Dashboard() {
                             </table>
                         </div>
                     ) : (
-                        <EmptyState />
+                        <EmptyState/>
                     )}
                 </div>
             </div>
