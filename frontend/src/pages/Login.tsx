@@ -24,8 +24,9 @@ export default function Login() {
             const response = await axios.post('http://localhost:5000/api/auth/login', formData);
             login(response.data.token, response.data.user);
             navigate('/dashboard');
-        } catch (err) {
-            setError('Email ou mot de passe incorrect');
+        } catch (error) {
+            console.error(error)
+            setError('Email ou mot de passe incorrect :');
         } finally {
             setIsLoading(false);
         }
