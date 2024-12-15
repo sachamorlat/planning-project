@@ -67,7 +67,7 @@ app.post('/api/auth/login', (req, res) => {
     });
 });
 
-app.use('/api/work-entries', workEntries);
+app.use('/api', workEntries);
 
 const PORT = 5000;
 app.listen(PORT, () => {
