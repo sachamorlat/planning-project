@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import {WorkEntry} from "../types/workEntry.ts";
 import EmptyState from "../components/EmptyState.tsx";
 import AddWorkEntryModal from "../components/AddWorkEntryModal.tsx";
 
 export default function Dashboard() {
     const [entries, setEntries] = useState([]);
-    const [showForm, setShowForm] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState('list'); // 'list', 'weekly', 'monthly'
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function Dashboard() {
                     {entries.length > 0 && (
                         <div className="flex gap-4">
                             <button
-                                onClick={() => setShowForm(true)}
+                                onClick={() => setIsOpen(true)}
                                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
                             >
                                 Nouvelle période
@@ -54,8 +54,8 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                {showForm && (
-                    <AddWorkEntryModal setShowForm={setShowForm} fetchEntries={fetchEntries} />
+                {isOpen && (
+                    <AddWorkEntryModal isOpen={isOpen} onClose={() => setIsOpen(false)} fetchEntries={fetchEntries}/>
                 )}
 
                 <div className="bg-white rounded-lg shadow-lg p-6">
@@ -96,7 +96,7 @@ export default function Dashboard() {
                             </table>
                         </div>
                     ) : (
-                        <EmptyState setShowForm={setShowForm}/>
+                        <EmptyState setIsOpen={setIsOpen}/>
                     )}
                 </div>
             </div>
