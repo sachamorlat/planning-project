@@ -3,6 +3,7 @@ import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import bodyParser from 'body-parser';
 import { User } from './types';
+import workEntries from "./routes/workEntries";
 
 const app = express();
 app.use(cors());
@@ -65,6 +66,8 @@ app.post('/api/auth/login', (req, res) => {
         }
     });
 });
+
+app.use('/api/work-entries', workEntries);
 
 const PORT = 5000;
 app.listen(PORT, () => {
