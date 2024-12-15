@@ -7,6 +7,11 @@ import { WorkHoursService } from '../services/workHours';
 const router = express.Router();
 
 // Endpoints for work entries
+router.get('/work-entries', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
+    const entries = WorkHoursService.getAllEntries(req.user!.userId);
+    res.json(entries);
+});
+
 router.post('/work-entries', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
     const { date, location, teammate, startTime, endTime, breakDuration } = req.body;
     const entry = WorkHoursService.addEntry({

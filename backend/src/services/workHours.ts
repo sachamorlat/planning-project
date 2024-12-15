@@ -25,6 +25,10 @@ export class WorkHoursService {
         };
     }
 
+    static getAllEntries(userId: number): WorkEntry[] {
+        return this.workEntries.filter(entry => entry.userId === userId);
+    }
+
     static addEntry(entry: Omit<WorkEntry, 'id' | 'created_at'>): WorkEntry {
         const newEntry: WorkEntry = {
             ...entry,
