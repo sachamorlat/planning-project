@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Clock } from 'lucide-react';
 
 export default function Dashboard() {
     const { user } = useAuth();
@@ -61,6 +62,24 @@ export default function Dashboard() {
         }
     };
 
+    const EmptyState = () => (
+        <div className="text-center py-12">
+            <Clock className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+                Aucune période enregistrée
+            </h3>
+            <p className="text-gray-500 mb-4">
+                Commencez par ajouter votre première période de travail.
+            </p>
+            <button
+                onClick={() => setShowForm(true)}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+            >
+                Ajouter une période
+            </button>
+        </div>
+    );
+
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-6xl mx-auto">
@@ -68,23 +87,25 @@ export default function Dashboard() {
                     <h1 className="text-3xl font-bold text-gray-800">
                         Tableau de bord
                     </h1>
-                    <div className="flex gap-4">
-                        <button
-                            onClick={() => setShowForm(true)}
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
-                        >
-                            Nouvelle période
-                        </button>
-                        <select
-                            className="border rounded-lg px-4 py-2"
-                            value={view}
-                            onChange={(e) => setView(e.target.value)}
-                        >
-                            <option value="list">Toutes les périodes</option>
-                            <option value="weekly">Vue hebdomadaire</option>
-                            <option value="monthly">Vue mensuelle</option>
-                        </select>
-                    </div>
+                    {entries.length > 0 && (
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => setShowForm(true)}
+                                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                            >
+                                Nouvelle période
+                            </button>
+                            <select
+                                className="border rounded-lg px-4 py-2"
+                                value={view}
+                                onChange={(e) => setView(e.target.value)}
+                            >
+                                <option value="list">Toutes les périodes</option>
+                                <option value="weekly">Vue hebdomadaire</option>
+                                <option value="monthly">Vue mensuelle</option>
+                            </select>
+                        </div>
+                    )}
                 </div>
 
                 {showForm && (
@@ -186,41 +207,45 @@ export default function Dashboard() {
                 )}
 
                 <div className="bg-white rounded-lg shadow-lg p-6">
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                            <tr className="border-b">
-                                <th className="px-4 py-2 text-left">Date</th>
-                                <th className="px-4 py-2 text-left">Lieu</th>
-                                <th className="px-4 py-2 text-left">Équipier</th>
-                                <th className="px-4 py-2 text-left">Début</th>
-                                <th className="px-4 py-2 text-left">Fin</th>
-                                <th className="px-4 py-2 text-left">Pause</th>
-                                <th className="px-4 py-2 text-left">Heures totales</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {entries.map((entry) => (
-                                <tr key={entry.id} className="border-b hover:bg-gray-50">
-                                    <td className="px-4 py-2">{new Date(entry.date).toLocaleDateString()}</td>
-                                    <td className="px-4 py-2">{entry.location}</td>
-                                    <td className="px-4 py-2">{entry.teammate}</td>
-                                    <td className="px-4 py-2">{entry.startTime}</td>
-                                    <td className="px-4 py-2">{entry.endTime}</td>
-                                    <td className="px-4 py-2">{entry.breakDuration} min</td>
-                                    <td className="px-4 py-2">
-                                        {(
-                                            (new Date(`${entry.date}T${entry.endTime}`) -
-                                                new Date(`${entry.date}T${entry.startTime}`)) /
-                                            (1000 * 60 * 60) -
-                                            (entry.breakDuration / 60)
-                                        ).toFixed(2)}h
-                                    </td>
+                    {entries.length > 0 ? (
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                <tr className="border-b">
+                                    <th className="px-4 py-2 text-left">Date</th>
+                                    <th className="px-4 py-2 text-left">Lieu</th>
+                                    <th className="px-4 py-2 text-left">Équipier</th>
+                                    <th className="px-4 py-2 text-left">Début</th>
+                                    <th className="px-4 py-2 text-left">Fin</th>
+                                    <th className="px-4 py-2 text-left">Pause</th>
+                                    <th className="px-4 py-2 text-left">Heures totales</th>
                                 </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                {entries.map((entry) => (
+                                    <tr key={entry.id} className="border-b hover:bg-gray-50">
+                                        <td className="px-4 py-2">{new Date(entry.date).toLocaleDateString()}</td>
+                                        <td className="px-4 py-2">{entry.location}</td>
+                                        <td className="px-4 py-2">{entry.teammate}</td>
+                                        <td className="px-4 py-2">{entry.startTime}</td>
+                                        <td className="px-4 py-2">{entry.endTime}</td>
+                                        <td className="px-4 py-2">{entry.breakDuration} min</td>
+                                        <td className="px-4 py-2">
+                                            {(
+                                                (new Date(`${entry.date}T${entry.endTime}`) -
+                                                    new Date(`${entry.date}T${entry.startTime}`)) /
+                                                (1000 * 60 * 60) -
+                                                (entry.breakDuration / 60)
+                                            ).toFixed(2)}h
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <EmptyState />
+                    )}
                 </div>
             </div>
         </div>
