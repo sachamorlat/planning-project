@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
+import { Input } from '../components/generic/Input.tsx';
+import BaseButton from '../components/generic/button/BaseButton.tsx';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
@@ -62,9 +62,9 @@ export default function Login() {
                         required
                     />
 
-                    <Button type="submit" isLoading={isLoading}>
+                    <BaseButton type="submit" isLoading={isLoading}>
                         Se connecter
-                    </Button>
+                    </BaseButton>
                 </form>
 
                 <p className="mt-4 text-center text-gray-600">

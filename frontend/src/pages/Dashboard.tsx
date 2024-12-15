@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {WorkEntry} from "../types/workEntry.ts";
-import EmptyState from "../components/EmptyState.tsx";
-import AddWorkEntryModal from "../components/AddWorkEntryModal.tsx";
+import EmptyState from "../components/specific/EmptyState.tsx";
+import AddWorkEntryModal from "../components/specific/AddWorkEntryModal.tsx";
 
 export default function Dashboard() {
     const [entries, setEntries] = useState([]);

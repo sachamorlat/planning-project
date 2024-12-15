@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {ButtonGroup, CancelButton, SaveButton} from "../generic/button/BaseButton.tsx";
 
 interface AddWorkEntryModalProps {
     isOpen: boolean;
@@ -146,19 +147,14 @@ const AddWorkEntryModal: React.FC<AddWorkEntryModalProps> = ({
                         </div>
                     </div>
                     <div className="flex justify-end gap-4 mt-6">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg"
-                        >
-                            Annuler
-                        </button>
-                        <button
-                            type="submit"
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
-                        >
-                            Enregistrer
-                        </button>
+                        <ButtonGroup spacing="normal">
+                            <CancelButton onClick={onClose} />
+                            <SaveButton
+                                type="submit"
+                                size="md"
+                                color="blue"
+                            />
+                        </ButtonGroup>
                     </div>
                 </form>
             </div>
