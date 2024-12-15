@@ -7,7 +7,7 @@ import { WorkHoursService } from '../services/workHours';
 const router = express.Router();
 
 // Endpoints for work entries
-router.post('/', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
+router.post('/work-entries', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
     const { date, location, teammate, startTime, endTime, breakDuration } = req.body;
     const entry = WorkHoursService.addEntry({
         userId: req.user!.userId,
@@ -21,13 +21,13 @@ router.post('/', authenticateToken, checkAuth, (req: AuthRequest, res: Response)
     res.status(201).json(entry);
 });
 
-router.get('/weekly/:date', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
+router.get('/work-entries/weekly/:date', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
     const entries = WorkHoursService.getWeeklyEntries(req.user!.userId, req.params.date);
     const report = WorkHoursService.calculateWeeklyHours(entries);
     res.json(report);
 });
 
-router.get('/monthly/:year/:month', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
+router.get('/work-entries/monthly/:year/:month', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
     const { year, month } = req.params;
     const entries = WorkHoursService.getMonthlyEntries(
         req.user!.userId,
@@ -37,7 +37,7 @@ router.get('/monthly/:year/:month', authenticateToken, checkAuth, (req: AuthRequ
     res.json(entries);
 });
 
-router.put('/:id', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
+router.put('/work-entries/:id', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
     const entryId = parseInt(req.params.id);
     const updatedEntry = WorkHoursService.updateEntry(entryId, req.user!.userId, req.body);
 
@@ -48,7 +48,7 @@ router.put('/:id', authenticateToken, checkAuth, (req: AuthRequest, res: Respons
     res.json(updatedEntry);
 });
 
-router.delete('/:id', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
+router.delete('/work-entries/:id', authenticateToken, checkAuth, (req: AuthRequest, res: Response) => {
     const entryId = parseInt(req.params.id);
     const deleted = WorkHoursService.deleteEntry(entryId, req.user!.userId);
 
