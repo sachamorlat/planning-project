@@ -19,13 +19,14 @@ const AddWorkEntryModal: React.FC<AddWorkEntryModalProps> = ({
         endTime: '',
         breakDuration: 0
     });
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     if (!isOpen) return null;
 
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/work-entries', {
+            const response = await fetch(`${apiUrl}/api/work-entries`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

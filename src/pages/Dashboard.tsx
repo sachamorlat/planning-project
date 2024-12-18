@@ -4,6 +4,7 @@ import EmptyState from "../components/EmptyState.tsx";
 import AddWorkEntryModal from "../components/AddWorkEntryModal.tsx";
 
 export default function Dashboard() {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const [entries, setEntries] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [view, setView] = useState('list'); // 'list', 'weekly', 'monthly'
@@ -14,7 +15,7 @@ export default function Dashboard() {
 
     const fetchEntries = async () => {
         try {
-            const response = await fetch('/api/work-entries', {
+            const response = await fetch(`${apiUrl}/api/work-entries`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
