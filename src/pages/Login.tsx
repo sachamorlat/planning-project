@@ -6,6 +6,7 @@ import { Button } from '../components/Button';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const { login } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +22,7 @@ export default function Login() {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+            const response = await axios.post(`${apiUrl}/api/auth/login`, formData);
             login(response.data.token, response.data.user);
             navigate('/dashboard');
         } catch (error) {
