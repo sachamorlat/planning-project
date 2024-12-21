@@ -3,29 +3,29 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeor
 @Entity()
 export class WorkEntry {
     @PrimaryGeneratedColumn()
-    id!: number
+    id!: number;
 
     @Column()
-    userId!: number
+    userId!: number;
 
     @Column()
-    date!: string
+    date!: string;
 
     @Column()
-    location!: string
+    location!: string;
 
     @Column()
-    teammate!: string
+    teammate!: string;
 
     @Column()
-    startTime!: string
+    startTime!: string;
 
     @Column()
-    endTime!: string
+    endTime!: string;
 
     @Column()
-    breakDuration!: number
+    breakDuration!: number;
 
     @CreateDateColumn()
-    created_at!: string
+    created_at!: string;
 }
